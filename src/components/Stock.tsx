@@ -1,7 +1,7 @@
 "use client"; // Ensure this component is client-side
 
 import { useEffect, useState } from 'react';
-import StockChart from './StockChart';
+
 
 interface StockData {
     date: string;
@@ -60,13 +60,10 @@ const Stock = () => {
     const displayedData = stockData.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
     return (
-        <div className="p-4 md:p-6 lg:p-8 bg-gray-100 min-h-screen flex flex-col items-center">
-            <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">Daily Stock Data</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-                <div className="p-4 bg-white shadow-md rounded-lg">
-                    <StockChart data={stockData.slice(0, 30)} /> {/* Display the last 30 entries in the chart for better analysis */}
-                </div>
-                <div className="p-4 bg-white shadow-md rounded-lg">
+        <div className="p-4 md:p-6 lg:p-8 w-full flex flex-col items-center">
+            
+           
+                <div className="p-4  rounded-lg">
                     <table className="table-auto w-full mb-6 border-collapse border border-gray-200">
                         <thead>
                             <tr className="bg-gray-200">
@@ -80,8 +77,8 @@ const Stock = () => {
                         </thead>
                         <tbody>
                             {displayedData.map((stock, index) => (
-                                <tr key={index} className="hover:bg-gray-100 transition duration-200">
-                                    <td className="border border-gray-300 px-2 py-2 md:px-4 md:py-3">{stock.date}</td>
+                                <tr key={index} className="hover:bg-gray-100 transition duration-200 text-xs">
+                                    <td className="border border-gray-300 py-2 md:px-2 md:py-3 text-[8px]">{stock.date}</td>
                                     <td className="border border-gray-300 px-2 py-2 md:px-4 md:py-3">{stock.open}</td>
                                     <td className="border border-gray-300 px-2 py-2 md:px-4 md:py-3">{stock.high}</td>
                                     <td className="border border-gray-300 px-2 py-2 md:px-4 md:py-3">{stock.low}</td>
@@ -99,7 +96,7 @@ const Stock = () => {
                             Next
                         </button>
                     </div>
-                </div>
+               
             </div>
         </div>
     );
