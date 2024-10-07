@@ -42,3 +42,28 @@ th {
   background-color: #f2f2f2;
 }
 
+::-webkit-scrollbar {
+  width: 2px; /* Adjust as needed */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4f46e5; /* Example color, adjust as needed */
+  border-radius: 10px; /* Optional for rounded corners */
+}
+
+::-webkit-scrollbar-track {
+  background: #e5e7eb; /* Example color for the track */
+}
+::-webkit-scrollbar {
+  background: linear-gradient(to right, #4f46e5 10%, #0ea5e9 30%, #34d399 90%);
+  height: 2px;
+  }
+
+#splitColor {
+    background: linear-gradient(to right, #38b2ac, #4299e1); /* from-teal-400 to-blue-500 */
+    transition: background 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+#splitColor {
+    background: linear-gradient(to right, #d53f8c, #ed8936); /* hover:from-pink-500 hover:to-orange-500 */
+  }

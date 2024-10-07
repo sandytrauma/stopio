@@ -15,7 +15,6 @@ const searchSymbol = async (query: string) => {
   const response = await fetch(
     `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${apiKey}`
   );
-  console.log(response);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -34,8 +33,21 @@ const Search: React.FC<SearchProps> = ({ setStockSymbol }) => {
 
     try {
       const searchResults = await searchSymbol(input);
-      const result = searchResults.bestMatches || []; // Updated to access 'bestMatches'
-      setBestMatches(result);
+      const result = searchResults["bestMatches"] || [];
+      // Transforming the data structure to match the expected format
+      const formattedResults = result.map((match: { [x: string]: any; }) => ({
+        "1. symbol": match["1. symbol"],
+        "2. name": match["2. name"],
+        "3. type": match["3. type"],
+        "4. region": match["4. region"],
+        "5. marketOpen": match["5. marketOpen"],
+        "6. marketClose": match["6. marketClose"],
+        "7. timezone": match["7. timezone"],
+        "8. currency": match["8. currency"],
+        "9. matchScore": match["9. matchScore"] || "N/A",
+      }));
+      setBestMatches(formattedResults);
+      console.log(formattedResults)
       setError(""); // Clear any previous errors
     } catch (error) {
       setBestMatches([]);
@@ -53,7 +65,6 @@ const Search: React.FC<SearchProps> = ({ setStockSymbol }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       updateBestMatches();
-      console.log(updateBestMatches);
     }
   };
 
@@ -90,17 +101,16 @@ const Search: React.FC<SearchProps> = ({ setStockSymbol }) => {
         <MagnifyingGlassCircleIcon className="h-4 w-4 fill-gray-100" />
       </button>
       
-        {input && bestMatches.length > 0 ? (
-          <div className="mt-12">
+      {input && bestMatches.length > 0 ? (
+        <div className="mt-12">
           <SearchResults
             results={bestMatches}
             setStockSymbol={setStockSymbol}
           />
-          </div>
-        ) : (
-          error && <p className="text-red-500 text-sm mt-2">{error}</p>
-        )}
-      
+        </div>
+      ) : (
+        error && <p className="text-red-500 text-sm mt-2">{error}</p>
+      )}
     </div>
   );
 };
