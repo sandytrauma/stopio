@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import SearchResults from "./SearchResults"; // Adjust the import path as necessary
-import { MagnifyingGlassCircleIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import {
+  MagnifyingGlassCircleIcon,
+  XMarkIcon,
+} from "@heroicons/react/16/solid";
 
 interface SearchProps {
   setStockSymbol: (symbol: string) => void;
@@ -8,15 +11,15 @@ interface SearchProps {
 
 // Updated searchSymbol function
 const searchSymbol = async (query: string) => {
-  const apiKey = process.env.ALPHA_VANTAGE_SYMBOL_SEARCH_API_KEY; 
+  const apiKey = process.env.ALPHA_VANTAGE_SYMBOL_SEARCH_API_KEY;
   const response = await fetch(
     `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${apiKey}`
   );
-  console.log(response)
+  console.log(response);
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  
+
   const data = await response.json();
   return data;
 };
@@ -50,6 +53,7 @@ const Search: React.FC<SearchProps> = ({ setStockSymbol }) => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       updateBestMatches();
+      console.log(updateBestMatches);
     }
   };
 
@@ -65,7 +69,7 @@ const Search: React.FC<SearchProps> = ({ setStockSymbol }) => {
   }, [input]);
 
   return (
-    <div className="flex items-center my-4 border-2 rounded-md relative z-50 w-60 bg-white border-neutral-200">
+    <div className="flex items-center my-4 border-2 rounded-md relative z-50 w-60 text-teal-700 bg-white border-neutral-200">
       <input
         type="text"
         value={input}
@@ -85,11 +89,18 @@ const Search: React.FC<SearchProps> = ({ setStockSymbol }) => {
       >
         <MagnifyingGlassCircleIcon className="h-4 w-4 fill-gray-100" />
       </button>
-      {input && bestMatches.length > 0 ? (
-        <SearchResults results={bestMatches} setStockSymbol={setStockSymbol} />
-      ) : (
-        error && <p className="text-red-500 text-sm mt-2">{error}</p>
-      )}
+      
+        {input && bestMatches.length > 0 ? (
+          <div className="mt-12">
+          <SearchResults
+            results={bestMatches}
+            setStockSymbol={setStockSymbol}
+          />
+          </div>
+        ) : (
+          error && <p className="text-red-500 text-sm mt-2">{error}</p>
+        )}
+      
     </div>
   );
 };

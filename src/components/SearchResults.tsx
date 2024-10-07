@@ -1,8 +1,15 @@
 import React from "react";
 
 interface SearchResult {
-  symbol: string;
-  description: string;
+  "1. symbol": string;
+  "2. name": string;
+  "3. type": string;
+  "4. region": string;
+  "5. marketOpen": string;
+  "6. marketClose": string;
+  "7. timezone": string;
+  "8. currency": string;
+  "9. matchScore": string;
 }
 
 interface SearchResultsProps {
@@ -12,18 +19,24 @@ interface SearchResultsProps {
 
 const SearchResults: React.FC<SearchResultsProps> = ({ results, setStockSymbol }) => {
   return (
-    <ul className="absolute top-12 border-2 w-full rounded-md h-64 overflow-y-scroll bg-white border-neutral-200 custom-scrollbar">
-      {results.map((item) => (
-        <li
-          key={item.symbol}
-          className="cursor-pointer p-4 m-2 flex items-center text-black justify-between rounded-md hover:bg-indigo-200 transition duration-300"
-          onClick={() => setStockSymbol(item.symbol)}
-        >
-          <span>{item.symbol}</span>
-          <span>{item.description}</span>
-        </li>
-      ))}
-    </ul>
+    <div className="absolute rounded-md h-60 overflow-x-scroll bg-teal-400 z-50 w-full shadow-lg">
+      {results.length > 0 ? (
+        results.map((result) => (
+          <div
+            key={result["1. symbol"]}
+            className="p-2 cursor-pointer hover:bg-gray-200"
+            onClick={() => setStockSymbol(result["1. symbol"])}
+          >
+            <p className="text-zinc-800">
+              {result["2. name"]} ({result["1. symbol"]})
+            </p>
+            <p className="text-sm text-gray-500">{result["3. type"]} - {result["4. region"]}</p>
+          </div>
+        ))
+      ) : (
+        <p className="p-2">No results found</p>
+      )}
+    </div>
   );
 };
 
